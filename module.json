@@ -1,0 +1,48 @@
+{
+  "id": "swade-leadership",
+  "title": "SWADE Leadership Tools",
+  "description": "<p>Applies Leadership effects to allies.</p>",
+  "authors": [
+    {
+      "name": "flying-squad",
+      "flags": {}
+    }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "esmodules": [
+    "leadership.js"
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "swade",
+        "type": "system",
+        "compatibility": {
+          "minimum": "4.2.0",
+          "maximum": "5.5"
+        }
+      }
+    ]
+  },
+  "url": "https://github.com/flyingsquad/swade-leadership",
+  "manifest": "https://raw.githubusercontent.com/flyingsquad/swade-leadership/main/module.json",
+  "version": "1.0.0",
+  "download": "https://github.com/flyingsquad/swade-leadership/archive/refs/tags/v1.0.3.zip",
+  "packs": [
+    {
+      "name": "macros",
+      "label": "Leadership Macros",
+      "path": "packs/macros",
+      "type": "Macro",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "system": "swade"
+    }
+  ],
+  "flags": {}
+}
