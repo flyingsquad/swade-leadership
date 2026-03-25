@@ -12,6 +12,9 @@ export class swadeLeadership {
 		}
 
 		function removeEffects(t, hasCommand, hasFervor, hasHoldTheLine) {
+			// Ignore tokens with deleted actors.
+			if (!t.actor)
+				return;
 			let effects = []
 			if (hasCommand)
 				effects.push(game.swadeLeadership.commandEffect);
@@ -32,6 +35,11 @@ export class swadeLeadership {
 			t.actor.deleteEmbeddedDocuments("ActiveEffect", deleteEffects);
 			return deleteEffects.length;
 		}		
+
+		if (token && !token.actor) {
+			ui.notifications.notify(`The actor for token ${token.name} does not exist.`);
+			return;
+		}
 
 		if (options?.remove && !token) {
 			let count = 0;
@@ -69,6 +77,9 @@ export class swadeLeadership {
 
 		let allyCount = 0;
 		for (let t of canvas.tokens.objects.children) {
+		  // Ignore tokens with deleted actors.
+		  if (!t.actor)
+			continue;
 		  // Can't affect self.
 		  if (token.id == t.id)
 			continue;
@@ -249,6 +260,30 @@ export class swadeLeadership {
 			]
 		};
 
+		if (token && !token.actor) {
+			ui.notifications.notify(`The actor for token ${token.name} does not exist.`);
+			return;
+		}
+
+		if (options?.remove) {
+			const origin = token ? `Actor.${actor.id}` : null;
+			let count = 0;
+			for (let t of canvas.tokens.objects.children) {
+				if (!t.actor)
+					continue;
+				const eff = t.actor.effects.find(e => e.name.match(/^Inspire/) && (e.origin == origin || origin == null));
+				if (eff) {
+					t.actor.deleteEmbeddedDocuments("ActiveEffect", [eff.id]);
+					count++;
+				}
+			}
+			if (!token)
+				ui.notifications.notify(`Inspire removed from ${count} token(s).`);
+			else
+				ui.notifications.notify(`Inspire removed from ${count} ally/ies of ${token.name}.`);
+			return;
+		}
+
 		if (token == null) {
 			ui.notifications.warn('A token with the Inspire Edge must be selected.');
 			return;
@@ -259,22 +294,15 @@ export class swadeLeadership {
 			return;
 		}
 
-		if (options?.remove) {
-			const origin = `Actor.${actor.id}`;
-			for (let t of canvas.tokens.objects.children) {
-				const eff = t.actor.effects.find(e => e.name.match(/^Inspire/) && e.origin == origin);
-				if (eff)
-					t.actor.deleteEmbeddedDocuments("ActiveEffect", [eff.id]);
-			}
-			return;
-		}
-
 		const hasNaturalLeader = actor.items.find(it => it.type == 'edge' && it.system.swid == 'natural-leader');
 		const range = this.commandRange(actor);
 
 		let tokens = [];
 
 		for (let t of canvas.tokens.objects.children) {
+			// Ignore tokens without actors.
+			if (!t.actor)
+				continue;
 			// Can't affect self.
 			if (token.id == t.id)
 				continue;
@@ -387,6 +415,13 @@ export class swadeLeadership {
 
 }
 
+/** Removed keyboard usage for Leadership in favor of an action
+ *	on the character that has the Edge(s). Too many other modules
+ *	use keys for things and separate ones are required for Inspire
+ *	and apply things like Command and Hold the Line!
+ */
+ 
+/*
 
 Hooks.once("setup", () => {
   game.keybindings.register("swade-leadership", "apply-leadership-key", {
@@ -436,3 +471,5 @@ Hooks.once("setup", () => {
 	}	
   }
 });
+
+*/
