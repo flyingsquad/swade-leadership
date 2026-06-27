@@ -114,7 +114,7 @@ export class swadeLeadership {
 
 	commandEffect = {
 		name: "Command",
-		img: "modules/swade-leadership/icons/inspire.webp",
+		img: "modules/swade-leadership/icons/command.webp",
 		origin: null,
 		disabled: false,
 		duration: {
@@ -247,7 +247,7 @@ export class swadeLeadership {
 		};
 		let inspireEffect = {
 			name: "Inspire (Trait +1)",
-			icon: "modules/swade-leadership/icons/inspire.webp",
+			img: "modules/swade-leadership/icons/inspire.webp",
 			origin: null,
 			disabled: false,
 			duration: {

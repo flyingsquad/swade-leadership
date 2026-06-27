@@ -25,8 +25,8 @@
   },
   "url": "https://github.com/flyingsquad/swade-leadership",
   "manifest": "https://raw.githubusercontent.com/flyingsquad/swade-leadership/main/module.json",
-  "version": "1.0.6",
-  "download": "https://github.com/flyingsquad/swade-leadership/archive/refs/tags/v1.0.6.zip",
+  "version": "1.0.7",
+  "download": "https://github.com/flyingsquad/swade-leadership/archive/refs/tags/v1.0.7.zip",
   "packs": [
     {
       "name": "macros",
