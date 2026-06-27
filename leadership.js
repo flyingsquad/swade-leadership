@@ -114,13 +114,14 @@ export class swadeLeadership {
 
 	commandEffect = {
 		name: "Command",
-		icon: "modules/swade-leadership/icons/inspire.webp",
+		img: "modules/swade-leadership/icons/inspire.webp",
 		origin: null,
 		disabled: false,
 		duration: {
 		  seconds: null,
-		  rounds: null
+		  rounds: 1000
 		},
+		showIcon: 2,
 		system: {
 			favorite: true,
 			expiration: null
@@ -141,13 +142,14 @@ export class swadeLeadership {
 	};
 	fervorEffect = {
 		name: "Fervor",
-		icon: "modules/swade-leadership/icons/fervor.webp",
+		img: "modules/swade-leadership/icons/fervor.webp",
 		origin: null,
 		disabled: false,
 		duration: {
 		  seconds: null,
-		  rounds: null
+		  rounds: 1000
 		},
+		showIcon: 2,
 		system: {
 			favorite: true,
 			expiration: null
@@ -163,13 +165,14 @@ export class swadeLeadership {
 	};
 	holdTheLineEffect = {
 		name: "Hold the Line",
-		icon: "modules/swade-leadership/icons/holdtheline.webp",
+		img: "modules/swade-leadership/icons/holdtheline.webp",
 		origin: null,
 		disabled: false,
 		duration: {
 		  seconds: null,
-		  rounds: null
+		  rounds: 1000
 		},
+		showIcon: 2,
 		system: {
 			favorite: true,
 			expiration: null
@@ -222,6 +225,7 @@ export class swadeLeadership {
 			  rounds: duration,
 			  startTime: game.time.worldTime
 			},
+			showIcon: 2,
 			system: {
 			  expiration: expiration
 			},
@@ -251,6 +255,7 @@ export class swadeLeadership {
 			  rounds: 1,
 			  startRound: game?.combat?.current?.round
 			},
+			showIcon: 2,
 			system: {
 				favorite: true,
 				expiration: 2
@@ -271,9 +276,10 @@ export class swadeLeadership {
 			for (let t of canvas.tokens.objects.children) {
 				if (!t.actor)
 					continue;
-				const eff = t.actor.effects.find(e => e.name.match(/^Inspire/) && (e.origin == origin || origin == null));
-				if (eff) {
-					t.actor.deleteEmbeddedDocuments("ActiveEffect", [eff.id]);
+				const eff = t.actor.effects.filter(e => e.name.match(/^Inspire/) && (e.origin == origin || origin == null));
+				if (eff.length > 0) {
+					const effects = eff.map(e => e.id);
+					t.actor.deleteEmbeddedDocuments("ActiveEffect", effects);
 					count++;
 				}
 			}
